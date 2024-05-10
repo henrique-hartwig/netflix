@@ -1,28 +1,28 @@
-import React from 'react'
+import React, { ChangeEvent } from "react";
 
 interface AuthInputProps {
-    id: string
-    label: string
-    value: string
-    type?: string
-    onChange: (event: Event) => void
+  id: string;
+  label: string;
+  value: string;
+  type?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AuthInput: React.FC<AuthInputProps> = ({
-    id,
-    label,
-    value,
-    type,
-    onChange
+  id,
+  label,
+  value,
+  type,
+  onChange,
 }) => {
   return (
     <div className="relative">
-        <input
-            id={id}
-            value={value}
-            type={type}
-            onChange={onChange}
-            className="
+      <input
+        id={id}
+        value={value}
+        type={type}
+        onChange={onChange}
+        className="
             block
             rounded-md
             px-6
@@ -36,11 +36,11 @@ const AuthInput: React.FC<AuthInputProps> = ({
             focus:outline-none
             focus:ring-0
             peer"
-            placeholder=" "
-        />
-        <label
-            htmlFor={id}
-            className="
+        placeholder=" "
+      />
+      <label
+        htmlFor={id}
+        className="
             absolute
             text-md
             text-zinc-400
@@ -57,11 +57,11 @@ const AuthInput: React.FC<AuthInputProps> = ({
             peer-focus:scale-75
             peer-focus:-translate-y-3
             "
-        >
-            {label}
-        </label>
+      >
+        {label}
+      </label>
     </div>
-  )
-}
+  );
+};
 
-export default AuthInput
+export default AuthInput;
