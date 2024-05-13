@@ -1,3 +1,4 @@
+import axios from 'axios'
 import AuthInput from "../components/AuthInput";
 import "../app/globals.css";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -11,6 +12,14 @@ const Auth = () => {
   const toggleAction = useCallback(() => {
     setAction(action === "login" ? "create" : "login");
   }, [action]);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post('')
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   return (
     <div className="relative h-full w-full bg-netflix-wallpaper bg-center bg-no-repeat bg-fixed">
@@ -29,7 +38,7 @@ const Auth = () => {
               {action === "create" && (
                 <AuthInput
                   id="userName"
-                  label="userName"
+                  label="User"
                   value={userName}
                   type="userName"
                   onChange={(e) => setUserName(e.target.value)}
@@ -53,18 +62,15 @@ const Auth = () => {
                 Login
               </button>
               <p className="text-neutral-500 self-center">
-                Need new account?
+                {action === 'login' ? 'Need new account?' : 'Already have an account.' }
                 <span
                   className="text-white ml-1 hover:underline cursor-pointer"
                   onClick={toggleAction}
                 >
-                  Create one
+                  {action === 'login' ? 'Create one' : 'Back to Log in'}
                 </span>
               </p>
             </div>
-            <footer>
-              <p className="text-neutral-600">aaaaaaaaa aaaaaaaaaa aaaaaa</p>
-            </footer>
           </div>
         </div>
       </div>
