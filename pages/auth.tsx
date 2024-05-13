@@ -1,4 +1,5 @@
-import axios from 'axios'
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import AuthInput from "../components/AuthInput";
 import "../app/globals.css";
 import { ChangeEvent, useCallback, useState } from "react";
@@ -15,11 +16,15 @@ const Auth = () => {
 
   const register = useCallback(async () => {
     try {
-      await axios.post('')
+      await axios.post("/api/register", {
+        email,
+        userName,
+        password,
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }, [])
+  }, [email, userName, password]);
 
   return (
     <div className="relative h-full w-full bg-netflix-wallpaper bg-center bg-no-repeat bg-fixed">
@@ -58,16 +63,21 @@ const Auth = () => {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button className="bg-red-600 rounded-md py-3 mt-10 text-white hover:bg-red-700 transition">
+              <button
+                className="bg-red-600 rounded-md py-3 mt-10 text-white hover:bg-red-700 transition"
+                onClick={register}
+              >
                 Login
               </button>
               <p className="text-neutral-500 self-center">
-                {action === 'login' ? 'Need new account?' : 'Already have an account.' }
+                {action === "login"
+                  ? "Need new account?"
+                  : "Already have an account."}
                 <span
                   className="text-white ml-1 hover:underline cursor-pointer"
                   onClick={toggleAction}
                 >
-                  {action === 'login' ? 'Create one' : 'Back to Log in'}
+                  {action === "login" ? "Create one" : "Back to Log in"}
                 </span>
               </p>
             </div>

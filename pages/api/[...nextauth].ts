@@ -8,7 +8,7 @@ export default NextAuth ({
     providers: [
         Credentials({
             id: 'credentials',
-            name: 'credentials',
+            name: 'Credentials',
             credentials: {
                 email: {
                     label: 'Email',
