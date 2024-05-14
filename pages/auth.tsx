@@ -3,11 +3,12 @@ import axios from "axios";
 import AuthInput from "../components/AuthInput";
 import "../app/globals.css";
 import { ChangeEvent, useCallback, useState } from "react";
+import { signIn } from "next-auth/react";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [name, setName] = useState("");
   const [action, setAction] = useState<string>("login");
 
   const toggleAction = useCallback(() => {
@@ -18,13 +19,26 @@ const Auth = () => {
     try {
       await axios.post("/api/register", {
         email,
-        userName,
+        name,
         password,
       });
     } catch (error) {
       console.log(error);
     }
-  }, [email, userName, password]);
+  }, [email, name, password]);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-netflix-wallpaper bg-center bg-no-repeat bg-fixed">
@@ -42,11 +56,11 @@ const Auth = () => {
             <div className="text-white flex flex-col gap-4">
               {action === "create" && (
                 <AuthInput
-                  id="userName"
+                  id="name"
                   label="User"
-                  value={userName}
-                  type="userName"
-                  onChange={(e) => setUserName(e.target.value)}
+                  value={name}
+                  type="name"
+                  onChange={(e) => setName(e.target.value)}
                 />
               )}
               <AuthInput
@@ -65,9 +79,9 @@ const Auth = () => {
               />
               <button
                 className="bg-red-600 rounded-md py-3 mt-10 text-white hover:bg-red-700 transition"
-                onClick={register}
+                onClick={action === "login" ? login : register}
               >
-                Login
+                {action === "login" ? "Login" : "Register"}
               </button>
               <p className="text-neutral-500 self-center">
                 {action === "login"
