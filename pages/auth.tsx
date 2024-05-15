@@ -29,6 +29,7 @@ const Auth = () => {
 
   const login = useCallback(async () => {
     try {
+      console.log("🚀 ~ login ~ email:", email)
       await signIn("credentials", {
         email,
         password,
@@ -68,7 +69,7 @@ const Auth = () => {
                 label="Email"
                 value={email}
                 type="email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)} 
               />
               <AuthInput
                 id="password"
