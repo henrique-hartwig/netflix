@@ -2,18 +2,37 @@
 import axios from "axios";
 import AuthInput from "../components/AuthInput";
 import "../app/globals.css";
-import { ChangeEvent, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [action, setAction] = useState<string>("login");
+  const router = useRouter();
 
   const toggleAction = useCallback(() => {
     setAction(action === "login" ? "create" : "login");
   }, [action]);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router]);
 
   const register = useCallback(async () => {
     try {
@@ -22,24 +41,11 @@ const Auth = () => {
         name,
         password,
       });
+      login();
     } catch (error) {
       console.log(error);
     }
-  }, [email, name, password]);
-
-  const login = useCallback(async () => {
-    try {
-      console.log("🚀 ~ login ~ email:", email)
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-        callbackUrl: "/",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-netflix-wallpaper bg-center bg-no-repeat bg-fixed">
@@ -69,7 +75,7 @@ const Auth = () => {
                 label="Email"
                 value={email}
                 type="email"
-                onChange={(e) => setEmail(e.target.value)} 
+                onChange={(e) => setEmail(e.target.value)}
               />
               <AuthInput
                 id="password"
@@ -84,6 +90,40 @@ const Auth = () => {
               >
                 {action === "login" ? "Login" : "Register"}
               </button>
+              <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                <div
+                  className="
+                    w-10
+                    h-10
+                    bg-white
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                    cursor-pointer
+                    hover:opacity-80
+                    transition
+                    "
+                >
+                  <FcGoogle size={30} />
+                </div>
+                <div
+                  className="
+                    w-10
+                    h-10
+                    bg-white
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                    cursor-pointer
+                    hover:opacity-80
+                    transition
+                    "
+                >
+                  <FaGithub size={30} />
+                </div>
+              </div>
               <p className="text-neutral-500 self-center">
                 {action === "login"
                   ? "Need new account?"

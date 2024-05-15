@@ -16,13 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
-    console.log(existingUser)
     if (existingUser) {
       res.status(422).json({ error: 'Email already in use.' })
     }
 
     const hashedPassword = await bcrypt.hash(password, 12)
-    console.log("🚀 ~ handler ~ hashedPassword:", hashedPassword)
 
     const user = await prismadb.user.create({
       data: {
