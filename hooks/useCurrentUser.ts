@@ -5,7 +5,7 @@ import fetcher from '../lib/fetcher'
 const useCurentUser = () => {
     const { data, error, isLoading, mutate }= useSWR('/api/current', fetcher)
 
-    return [ data, error, isLoading, mutate ]
+    return { data, error, isLoading, mutate }
 }
 
 export default useCurentUser
